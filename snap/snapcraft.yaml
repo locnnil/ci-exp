@@ -1,7 +1,17 @@
-name: test-2bc233c04d9b-locnnil
-version: "1.0"
+# name: test-2bc233c04d9b-locnnil
+name: real-time-tests
+version: "demo"
 summary: test snap publish stuff
 description: This is a snap to test snap store publishing features
+
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
 
 grade: stable
 base: core24
