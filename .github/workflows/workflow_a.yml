@@ -1,0 +1,14 @@
+name: trigger
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test:
+    env:
+      PR: ${{ github.event.pull_request.number }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Testing
+        run: echo -e "\n\n PR number-> $PR\n"
