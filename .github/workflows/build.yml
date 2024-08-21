@@ -14,6 +14,7 @@ jobs:
     env:
       # PR_NUMBER: ${{ github.event.pull_request.number }} # TODO: Try this latter
         PR_NUMBER: ${{ github.event.number }}
+        RUN: ${{ github.run_number}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,3 +28,10 @@ jobs:
         with:
           name: hello_test_snap_${{ github.run_number}}
           path: ${{ steps.snapcraft.outputs.snap }}
+
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
+        with:
+          snap: ${{ steps.snapcraft.outputs.snap }}
+          release: latest/edge/pr-${{ env.RUN }}
