@@ -12,4 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        run: echo -e "\n PR number-> $PR\nEV number-> $EV\n"
+        run: echo -e "\n PR number-> $PR x ${{ env.PR }} \nEV number-> $EV x ${{ env.EV }}\n"
