@@ -7,13 +7,13 @@ on:
 jobs:
   test:
     env:
-      PR: ${{ github.event.pull_request.number }}
-      EV: ${{ github.event.number }}
+      PR_NUM: ${{ github.event.pull_request.number }}
+      EV_NUM: ${{ github.event.number }}
     runs-on: ubuntu-latest
     steps:
       - name: Testing
         run: |
           
-          echo -e "\n PR number-> $PR x ${{ env.PR }} \nEV number-> $EV x ${{ env.EV }}\n"
+          echo -e "\n PR number-> $PR_NUM x ${{ env.PR_NUM }} \nEV number-> $EV_NUM x ${{ env.EV_NUM }}\n"
 
           echo -e "Testing\n"
