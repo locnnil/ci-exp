@@ -8,7 +8,8 @@ jobs:
   test:
     env:
       PR: ${{ github.event.pull_request.number }}
+      EV: ${{ github.event.number }}
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        run: echo -e "\n\n PR number-> $PR\n"
+        run: echo -e "\n PR number-> $PR\nEV number-> $EV\n"
