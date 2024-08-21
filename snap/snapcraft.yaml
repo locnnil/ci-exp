@@ -1,0 +1,20 @@
+name: test-2bc233c04d9b-locnnil
+version: "1.0"
+summary: test snap publish stuff
+description: This is a snap to test snap store publishing features
+
+grade: stable
+base: core24
+confinement: strict
+
+apps:
+  hello1:
+    command: usr/bin/exec-env
+
+  hello2:
+    command: usr/bin/exec-env
+
+parts:
+  env:
+    plugin: dump
+    source: .
