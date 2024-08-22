@@ -14,3 +14,15 @@ jobs:
       - name: Check the number
         run: |
           echo -e "\n NUMBER -> ${{ github.event.workflow_run.outputs.get-number }}"
+
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: manual.yml
+          name: number.json
+
+      - name: Print Number
+        run: |
+          echo "NUMBER -> $(jq '.number' number.json)"
+

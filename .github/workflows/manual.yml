@@ -14,7 +14,22 @@ jobs:
     outputs:
       get-number: ${{ steps.set-number.outputs.get-number }}
 
+
     steps:
       - name: Set Number Output
         id: set-number
         run: echo "::set-output name=get-number::${{ github.event.inputs.number }}"
+
+      - name: Generate number
+        id: num
+        run: |
+          printf '{
+            "number": ${{ github.event.inputs.number }}
+          }' >> number.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: number.json
+          path: ./
+

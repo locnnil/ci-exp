@@ -1,4 +1,4 @@
-name: Smoke Test
+name: reactive-test
 
 on:
   workflow_run:
