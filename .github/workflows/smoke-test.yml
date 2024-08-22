@@ -14,7 +14,7 @@ jobs:
   smoke-test:
     name: Snapcraft
     runs-on: ubuntu-22.04
-    if: {{ github.event.workflow_run.conclusion == 'success' }}
+    if: "${{ github.event.workflow_run.conclusion == 'success' }}"
     steps:
       - name: Get Workflow config decision
         uses: dawidd6/action-download-artifact@v6
@@ -42,8 +42,9 @@ jobs:
 
       - name: Install
         run: |
+
           if [ "$UPLOADED_TO_STORE" == "true" ]; then
-            sudo snap install test-2bc233c04d9b-locnnil --channel edge/pr-${{ PR_NUMBER }}
+            sudo snap install test-2bc233c04d9b-locnnil --channel edge/pr-${{ env.PR_NUMBER }}
           else
             sudo snap install --dangerous test-pr-$PR_NUMBER.snap
           fi
