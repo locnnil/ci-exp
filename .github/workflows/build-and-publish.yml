@@ -25,7 +25,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: refs/pull/$PR_NUMBER/merge
+          ref: refs/pull/${{ env.PR_NUMBER }}/merge
 
       - name: Build
         uses: snapcore/action-build@v1

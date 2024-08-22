@@ -30,7 +30,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: refs/pull/$PR_NUMBER/merge
+          ref: refs/pull/${{ env.PR_NUMBER }}/merge
 
       - name: Download snap artifact (if needed)
         if: "${{ env.UPLOADED_TO_STORE == 'false' }}"
