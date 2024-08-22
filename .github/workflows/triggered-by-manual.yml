@@ -1,0 +1,16 @@
+name: reactive
+
+on:
+  workflow_run:
+    workflows: ["manual"]
+    types:
+      - completed
+
+jobs:
+  check-number:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Check the number
+        run: |
+          echo -e "\n NUMBER -> ${{ github.event.workflow_run.outputs.get-number }}"
