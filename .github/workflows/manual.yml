@@ -21,15 +21,12 @@ jobs:
         run: echo "::set-output name=get-number::${{ github.event.inputs.number }}"
 
       - name: Generate number
-        id: num
         run: |
-          printf '{
-            "number": ${{ github.event.inputs.number }}
-          }' >> number.json
+          printf '${{ github.event.inputs.number }}' >> num
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: number.json
+          name: num
           path: ./
 

@@ -20,9 +20,9 @@ jobs:
         uses: dawidd6/action-download-artifact@v6
         with:
           workflow: manual.yml
-          name: number.json
+          name: num
 
       - name: Print Number
         run: |
-          echo "NUMBER -> $(jq '.number' number.json)"
+          echo "NUMBER -> $(cat num)"
 
