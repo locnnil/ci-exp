@@ -1,0 +1,55 @@
+name: smoke-test
+
+on:
+  workflow_run:
+    workflows: ["build-publish"]
+    types:
+      - completed
+
+defaults:
+  run:
+    shell: 'bash -Eeuo pipefail -x {0}'
+
+jobs:
+  smoke-test:
+    name: Snapcraft
+    runs-on: ubuntu-22.04
+    if: {{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Get Workflow config decision
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: build-and-publish.yml
+          name: config.json
+
+      - name: Extract configs
+        run: |
+          echo "PR_NUMBER=$(jq -r '.pr-number' config.json)" >> "$GITHUB_ENV"
+          echo "UPLOADED_TO_STORE=$(jq -r '.uploaded-to-store' config.json)" >> "$GITHUB_ENV"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/$PR_NUMBER/merge
+
+      - name: Download snap artifact (if needed)
+        if: "${{ env.UPLOADED_TO_STORE == 'false' }}"
+        id: download-snap-artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: build-and-publish.yml
+          name: docker-pr-${{ env.PR_NUMBER }}.snap
+
+      - name: Install
+        run: |
+          if [ "$UPLOADED_TO_STORE" == "true" ]; then
+            sudo snap install test-2bc233c04d9b-locnnil --channel edge/pr-${{ PR_NUMBER }}
+          else
+            sudo snap install --dangerous test-pr-$PR_NUMBER.snap
+          fi
+
+      - name: run
+        run: |
+
+          test-2bc233c04d9b-locnnil.hello2
+

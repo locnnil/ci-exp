@@ -12,7 +12,7 @@ apps:
     command: usr/bin/exec-env
 
   hello2:
-    command: usr/bin/exec-env
+    command: usr/bin/say-hello
 
 parts:
   env:
