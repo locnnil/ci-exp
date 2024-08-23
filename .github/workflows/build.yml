@@ -1,8 +1,8 @@
-name: Store Publish
+name: Build
 
 on:
-  # pull_request:
-  # push:
+  pull_request:
+  push:
   workflow_dispatch:
 
 defaults:
@@ -12,10 +12,10 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
+    # env:
       # PR_NUMBER: ${{ github.event.pull_request.number }} # TODO: Try this latter
-        PR_NUMBER: ${{ github.event.number }}
-        RUN: ${{ github.run_number}}
+        # PR_NUMBER: ${{ github.event.number }}
+        # RUN: ${{ github.run_number}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,17 +23,12 @@ jobs:
       - name: Build
         uses: snapcore/action-build@v1
         id: snapcraft
+        with:
+          snapcraft-args: snap --output test_${{ github.run_id}}.snap
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: hello_test_snap_${{ github.run_number}}
+          name: test_${{ github.run_id}}.snap
           path: ${{ steps.snapcraft.outputs.snap }}
 
-      - name: Publish to Store
-        uses: snapcore/action-publish@v1
-        env:
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
-        with:
-          snap: ${{ steps.snapcraft.outputs.snap }}
-          release: latest/edge/run-${{ env.RUN }}

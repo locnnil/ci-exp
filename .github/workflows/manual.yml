@@ -3,29 +3,43 @@ name: manual
 on:
   workflow_dispatch:
     inputs:
-      number:
-        description: 'Give me a number'
+      run_id:
+        description: 'Run id'
         required: true
         type: number
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    outputs:
-      get-number: ${{ steps.set-number.outputs.get-number }}
+    # outputs:
+    #   get-number: ${{ steps.set-number.outputs.get-number }}
 
     steps:
-      - name: Set Number Output
-        id: set-number
-        run: echo "::set-output name=get-number::${{ github.event.inputs.number }}"
-
-      - name: Generate number
-        run: |
-          printf '${{ github.event.inputs.number }}' >> num
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Get the artifact
+        uses: dawidd6/action-download-artifact@v6
         with:
-          name: num
-          path: ./
+          workflow: build-and-publish.yml
+          name: test_${{ github.event.inputs.run_id }}.snap
+          run_id: ${{ github.event.inputs.run_id }}
 
+      # - name: Set Number Output
+      #   id: set-number
+      #   run: echo "::set-output name=get-number::${{ github.event.inputs.number }}"
+
+      # - name: Generate number
+      #   run: |
+      #     printf '${{ github.event.inputs.number }}' >> num
+
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: num
+      #     path: ./
+
+      - name: Publish to Store
+        uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
+        with:
+          snap: test_${{ github.event.inputs.run_id }}.snap
+          release: latest/edge/runid-${{ github.event.inputs.run_id }}
