@@ -27,7 +27,8 @@ jobs:
 
       - name: Install and run snap
         run: |
-
+          
+          cd test_*.snap && ls -la
           sudo snap install --dangerous test_*.snap
           test-2bc233c04d9b-locnnil.hello2
 
