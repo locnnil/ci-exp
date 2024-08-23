@@ -22,8 +22,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v6
         with:
           workflow: build.yml
-          name: test_${{ github.run_id}}.snap
-          run_id: ${{ github.run_id}}
+          name: test_[0-9]+.snap
+          name_is_regexp: true
 
       - name: Install and run snap
         run: |
