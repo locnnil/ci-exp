@@ -17,3 +17,17 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
         run: |
           echo "PR_NUMBER-> $PR_NUMBER "
+
+      - name: Get the artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: build.yml
+          name: test_${{ github.run_id}}.snap
+          run_id: ${{ github.run_id}}
+
+      - name: Install and run snap
+        run: |
+
+          sudo snap install --dangerous test_${{ github.run_id}}.snap
+          test-2bc233c04d9b-locnnil.hello2
+
