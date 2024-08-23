@@ -28,6 +28,6 @@ jobs:
       - name: Install and run snap
         run: |
 
-          sudo snap install --dangerous test_${{ github.run_id}}.snap
+          sudo snap install --dangerous test_*.snap
           test-2bc233c04d9b-locnnil.hello2
 
