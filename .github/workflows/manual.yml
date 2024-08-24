@@ -11,8 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # outputs:
-    #   get-number: ${{ steps.set-number.outputs.get-number }}
 
     steps:
       - name: Get the artifact
@@ -22,20 +20,6 @@ jobs:
           name: test_${{ github.event.inputs.run_id }}.snap
           run_id: ${{ github.event.inputs.run_id }}
 
-      # - name: Set Number Output
-      #   id: set-number
-      #   run: echo "::set-output name=get-number::${{ github.event.inputs.number }}"
-
-      # - name: Generate number
-      #   run: |
-      #     printf '${{ github.event.inputs.number }}' >> num
-
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: num
-      #     path: ./
-
       - name: Publish to Store
         uses: snapcore/action-publish@v1
         env:
@@ -43,3 +27,10 @@ jobs:
         with:
           snap: test_${{ github.event.inputs.run_id }}.snap
           release: latest/edge/runid-${{ github.event.inputs.run_id }}
+
+
+      - name: Install and run snap
+        run: |
+
+          sudo snap install test-2bc233c04d9b-locnnil --channel=latest/edge/runid-${{ github.event.inputs.run_id }}
+          test-2bc233c04d9b-locnnil.hello2
