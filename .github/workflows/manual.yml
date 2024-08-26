@@ -16,7 +16,7 @@ jobs:
       - name: Get the artifact
         uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: build-and-publish.yml
+          workflow_search: true
           name: test_${{ github.event.inputs.run_id }}.snap
           run_id: ${{ github.event.inputs.run_id }}
 
