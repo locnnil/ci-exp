@@ -5,7 +5,8 @@ description: This is a snap to test snap store publishing features
 
 grade: stable
 base: core24
-confinement: strict
+# confinement: strict
+confinement: devmode
 
 apps:
   hello1:
