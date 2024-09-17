@@ -1,0 +1,52 @@
+name: publish-only
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-id:
+        description: 'run-id number to fetch artifact'
+        required: true
+        type: number
+
+      risk:
+        description: 'track to publish to store'
+        required: true
+        type: choise
+        options:
+          - stable
+          - candidate
+          - beta
+          - edge
+      to-branch:
+        description: 'Upload to a runid-<run_id number> branch?'
+        required: true
+        default: 'false'
+        type: boolean
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get the artifact
+              uses: dawidd6/action-download-artifact@v6
+              with:
+                run_id: ${{ inputs.run_id }}
+                name: test_${{ inputs.run_id }}.snap
+
+            - name: Publish to Store
+              if: ${{ inputs.to-branch == 'false' }}
+              uses: snapcore/action-publish@v1
+              env:
+                SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
+              with:
+                snap: test_${{ inputs.run_id }}.snap
+                release: latest/${{ inputs.risk }}
+
+            - name: Publish to Store on a branch
+              if: ${{ inputs.to-branch == 'false' }}
+              uses: snapcore/action-publish@v1
+              env:
+                SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
+              with:
+                snap: test_${{ inputs.run_id }}.snap
+                release: latest/${{ inputs.risk }}/runid-${{ inputs.run_id }}
