@@ -1,5 +1,5 @@
 name: test-2bc233c04d9b-locnnil
-version: "demo"
+version: 1.2
 summary: test snap publish stuff
 description: This is a snap to test snap store publishing features
 
@@ -14,6 +14,9 @@ apps:
 
   hello:
     command: usr/bin/say-hello
+
+  bye:
+    command: usr/bin/bye
 
 parts:
   env:
