@@ -9,7 +9,7 @@ on:
         type: number
 
       risk:
-        description: 'track to publish to store'
+        description: 'risk to publish to store'
         required: true
         type: choise
         options:
@@ -43,7 +43,7 @@ jobs:
                 release: latest/${{ inputs.risk }}
 
             - name: Publish to Store on a branch
-              if: ${{ inputs.to-branch == 'false' }}
+              if: ${{ inputs.to-branch == 'true' }}
               uses: snapcore/action-publish@v1
               env:
                 SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_LOGIN }}
