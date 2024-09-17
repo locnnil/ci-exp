@@ -9,10 +9,10 @@ base: core24
 confinement: devmode
 
 apps:
-  hello1:
+  env:
     command: usr/bin/exec-env
 
-  hello2:
+  hello:
     command: usr/bin/say-hello
 
 parts:
