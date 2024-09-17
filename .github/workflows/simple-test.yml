@@ -29,6 +29,6 @@ jobs:
         run: |
           
           cd test_*.snap && ls -la
-          sudo snap install --dangerous test_*.snap
+          sudo snap install --dangerous --devmode test_*.snap
           test-2bc233c04d9b-locnnil.hello2
 
